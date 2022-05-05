@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+Copyright (c) 2020 Cisco and/or its affiliates.
+
+This software is licensed to you under the terms of the Cisco Sample
+Code License, Version 1.1 (the "License"). You may obtain a copy of the
+License at
+
+               https://developer.cisco.com/docs/licenses
+
+All use of the material herein must be in accordance with the terms of
+the License. All rights not expressly granted by the License are
+reserved. Unless required by applicable law or agreed to separately in
+writing, software distributed under the License is distributed on an "AS
+IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+--!>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.80.0">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="icon" type="image/vnd.microsoft.icon" href="//www.cisco.com/favicon.ico">
+        <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="///www.cisco.com/favicon.ico">
+        {% block header %}
+        {% endblock %}
+    </head>
+    <body>
+        <main class="container">
+            {% block content %}
+            {% endblock %}
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2021 Cisco</p>
+                <p class="mb-1" id="timenow"></p>
+            </footer>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+        <script src="{{ url_for('static', filename='js/tableExport.min.js') }}"></script>
+        <script>
+            let today = new Date();
+            let date = today.getUTCDate()+'-'+(today.getUTCMonth()+1)+'-'+today.getUTCFullYear();
+            let time = today.getUTCHours() + ":" + today.getUTCMinutes();
+            let dateTime = date+' '+time+' (UTC)';
+            document.getElementById('timenow').innerHTML = dateTime;
+        </script>
+        {% block modals %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,89 @@
+<!--
+Copyright (c) 2020 Cisco and/or its affiliates.
+
+This software is licensed to you under the terms of the Cisco Sample
+Code License, Version 1.1 (the "License"). You may obtain a copy of the
+License at
+
+               https://developer.cisco.com/docs/licenses
+
+All use of the material herein must be in accordance with the terms of
+the License. All rights not expressly granted by the License are
+reserved. Unless required by applicable law or agreed to separately in
+writing, software distributed under the License is distributed on an "AS
+IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+--!>
+{% extends "widebase.html" %}
+
+{% block content %}
+    {{ super() }}
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="{{ url_for('static', filename='img/branding.png') }}" alt="" width="100" height="57">
+        <h2>Downtime Query</h2>
+    </div>
+    <div class="d-flex justify-content-center" id="spinning">
+        <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+    </div>
+    <div id="contentthing" style="display:none !important;">
+        <form action="/" method="POST" id="form">
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <label for="start" class="form-label">From</label>
+                            <input type="date" id="start" class="form-control" name="start" value="{{ start_date }}" required>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="end" class="form-label">To</label>
+                            <input type="date" id="end" class="form-control" name="end" value="{{ end_date }}" required>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="end" class="form-label"> &nbsp </label>
+                            <button class="w-100 btn btn-primary mb-2" type="submit">Submit</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <table data-toggle="table" data-search="true" data-show-export="true" data-export-data-types="csv">
+            <thead>
+            <tr>
+                <th data-sortable="true" data-field="date">Date</th>
+                <th data-sortable="true" data-field="serial">Serial</th>
+                <th data-sortable="true" data-field="name">Device Name</th>
+                <th data-sortable="true" data-field="network">Network Name</th>
+                <th data-sortable="true" data-field="offline">Offline</th>
+                <th data-sortable="true" data-field="online">Online</th>
+                <th data-sortable="true" data-field="downtime">Downtime in range (Minutes)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if entries is defined %}
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry.date.strftime(dateString) }}</td>
+                        <td>{{ entry.serial }}</td>
+                        <td>{{ entry.name }}</td>
+                        <td>{{ entry.network }}</td>
+                        <td>{{ entry.offline.strftime(dateString) }}</td>
+                        <td>{% if entry.online == 'Down' %}
+                                {{ entry.online }}
+                            {% else %}
+                                {{ entry.online.strftime(dateString) }}
+                            {% endif %}
+                        </td>
+                        <td>{{ entry.downtime }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{{ url_for('static', filename='js/loading.js') }}"></script>
+{% endblock %}
